@@ -1,10 +1,8 @@
 package org.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,4 +73,67 @@ public class GetInformation {
         return skills;
     }
 
+    public static List<Project> getProjectInfo(){
+        List<Project> projects=new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/autotask", "root", ""
+            );
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from project");
+
+            while (resultSet.next()) {
+                Project project =new Project();
+                project.setProjectID(resultSet.getInt(1) );
+                project.setProjectName(resultSet.getString(2) );
+                Timestamp tm=resultSet.getTimestamp(3);
+                project.setDeadLine(tm.toLocalDateTime());
+                project.setStaffID(resultSet.getInt(4));
+                project.setSkillID(resultSet.getInt(5));
+System.out.println(project.getProjectName());
+                projects.add(project);
+
+            }
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+
+        return projects;
+    }
+
+    public static List<Workload> getWorkloadInfo(){
+        List<Workload> workloads=new ArrayList<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/autotask", "root", ""
+            );
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from workload");
+
+            while (resultSet.next()) {
+                Workload workload=new Workload();
+                workload.setWorkloadID(resultSet.getInt(1) );
+                workload.setProjectID(resultSet.getInt(2) );
+                workload.setAvailability(resultSet.getBoolean(3) );
+
+                workloads.add(workload);
+
+            }
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+
+        return workloads;
+    }
 }

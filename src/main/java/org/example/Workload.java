@@ -1,41 +1,41 @@
 package org.example;
 
 public class Workload {
-    private String workloadID;
-    private String projectID;
-    private String staffID;
+    private int workloadID;
+    private int projectID;
+
     boolean availability;
 
-    public Workload(String workloadID, String projectID, String staffID, boolean availability) {
+    Workload(){
+        this.workloadID = 0;
+        this.projectID = 0;
+
+        this.availability = false;
+    }
+
+    public Workload(int workloadID, int projectID, boolean availability) {
         this.workloadID = workloadID;
         this.projectID = projectID;
-        this.staffID = staffID;
+
         this.availability = availability;
     }
 
-    public String getWorkloadID() {
+    public int getWorkloadID() {
         return workloadID;
     }
 
-    public void setWorkloadID(String workloadID) {
+    public void setWorkloadID(int workloadID) {
         this.workloadID = workloadID;
     }
 
-    public String getProjectID() {
+    public int getProjectID() {
         return projectID;
     }
 
-    public void setProjectID(String projectID) {
+    public void setProjectID(int projectID) {
         this.projectID = projectID;
     }
 
-    public String getStaffID() {
-        return staffID;
-    }
-
-    public void setStaffID(String staffID) {
-        this.staffID = staffID;
-    }
 
     public boolean isAvailability() {
         return availability;

@@ -12,12 +12,15 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Scanner input=new Scanner(System.in);
-        char x;
-        List<Staff> staffs =GetInformation.getStaffInfo();;
+        Scanner input = new Scanner(System.in);
+        char x='8';
+        List<Staff> staffs = GetInformation.getStaffInfo();
+        ;
         List<Skill> skills = GetInformation.getSkillInfo();
+        List<Project> projects = GetInformation.getProjectInfo();
+        List<Workload> workloads = GetInformation.getWorkloadInfo();
 
-
+        while (x !='4'){
         System.out.format("+--------------------------------------+%n");
         System.out.format("| Group6B Task Automation asigment      |%n");
         System.out.format("+------+-------------------------------+%n");
@@ -31,19 +34,22 @@ public class Main {
         System.out.format("+------+-------------------------------+%n");
 
 
+        System.out.print("Enter number: ");
+        x = input.next().charAt(0);
+        switch (x) {
+            case '1':
+                new ProjectManegment(projects, workloads);
 
-        System.out.print("Enter number: ");x=input.next().charAt(0);
-       switch (x){
-          case '1':
-              break;
+                break;
             case '2':
-                    new StaffManegment(staffs,skills);
-               break;
-           case '3':
-              break;
+                new StaffManegment(staffs, skills);
+                break;
+            case '3':
+                break;
             case '4':
 
-       }
+        }
+    }
 
     }
 

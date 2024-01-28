@@ -3,21 +3,21 @@ package org.example;
 import java.time.LocalDateTime;
 
 public class Project {
-    private String projectID;
+    private int projectID;
     private  String projectName;
     LocalDateTime deadLine;
-    private  String  staffID;
-    private String skillID;
+    private  int  staffID;
+    private int skillID;
 
     public  Project(){
-        this.projectID="00";
+        this.projectID=0;
         this.projectName="non";
-        this.skillID="Non";
-        this.staffID="non";
+        this.skillID=0;
+        this.staffID=0;
         this.deadLine=LocalDateTime.of(2000,12,24,12,20,22);
     }
 
-    public Project(String projectID, String projectName, LocalDateTime deadLine, String staffID, String skillID) {
+    public Project(int projectID, String projectName, LocalDateTime deadLine, int staffID, int skillID) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.deadLine = deadLine;
@@ -25,11 +25,11 @@ public class Project {
         this.skillID = skillID;
     }
 
-    public String getProjectID() {
+    public int getProjectID() {
         return projectID;
     }
 
-    public void setProjectID(String projectID) {
+    public void setProjectID(int projectID) {
         this.projectID = projectID;
     }
 
@@ -49,19 +49,19 @@ public class Project {
         this.deadLine = deadLine;
     }
 
-    public String getStaffID() {
+    public int getStaffID() {
         return staffID;
     }
 
-    public void setStaffID(String staffID) {
+    public void setStaffID(int staffID) {
         this.staffID = staffID;
     }
 
-    public String getSkillID() {
+    public int getSkillID() {
         return skillID;
     }
 
-    public void setSkillID(String skillID) {
+    public void setSkillID(int skillID) {
         this.skillID = skillID;
     }
 }

@@ -62,7 +62,8 @@ public class StaffManegment {
     public  void  addNewStaff(List<Skill> skills){
         Scanner input=new Scanner(System.in);
         Staff staff =new Staff();
-
+        staff.setId(staffs.size()+1);
+        System.out.println(skills.size());
         System.out.print("Enter name: ");staff.setName(input.nextLine());
         System.out.print("Enter Gender: ");staff.setGender(input.next().charAt(0));
         System.out.print("Enter Date of Birth (yyyy-mm-dd): ");staff.setDateOfBirth(LocalDate.parse(input.next()));
