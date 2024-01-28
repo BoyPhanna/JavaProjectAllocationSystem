@@ -1,14 +1,16 @@
 package org.example;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ProjectManegment {
-    List<Project> prjects=new ArrayList<>();
+    List<Project> projects=new ArrayList<>();
     List<Workload> workloads=new ArrayList<>();
 ProjectManegment(List<Project> prjects,List<Workload> workloads){
-    this.prjects=prjects;
+    this.projects=prjects;
     this.workloads=workloads;
     Scanner input=new Scanner(System.in);
     char x=' ';
@@ -52,7 +54,7 @@ public   void showProject(){
         System.out.format("| %-4s  %-15s %-30s %-10s %-10s  |%n","id","Project name","Dead Line","Staff ID","Skill ID");
         System.out.format("+-----------------------------------------------------------------------------|%n");
 
-        for (Project project:prjects) {
+        for (Project project:projects) {
             System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(),
                     project.getDeadLine(),project.getStaffID(),project.getSkillID()
             );
@@ -67,7 +69,7 @@ public  void searchProject(){
     boolean b=false;
 
     System.out.print("Enter project id: ");x=input.nextInt();
-    for(Project project2: prjects ){
+    for(Project project2: projects ){
         if(project2.getProjectID()==x){
             b=true;
             project=project2;
@@ -133,10 +135,25 @@ public   void editProject(int index,Project project){
             project.setSkillID(input.nextInt());
             break;
     }
-    prjects.set(index,project);
+    projects.set(index,project);
 }
 
 public  void taskAllocation(){
+    Project project =new Project();
+    Scanner input=new Scanner(System.in);
+    String dateTimeString ;
+    project.setProjectID(projects.size()+1);
+    System.out.print("Enter project name: ");project.setProjectName(input.nextLine());
+    System.out.print("Enter skillID: ");project.setSkillID(input.nextInt());
+    System.out.print("Enter project Dead Line ( yyyy-mm-ddThh:mm:ss )  :  ");
+    input.nextLine();
+    dateTimeString=input.nextLine();
+    LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    project.setDeadLine(dateTime);
+    System.out.print("Enter staff id: ");project.setStaffID(input.nextInt());
+
+    projects.add(project);
+    SetInformation.addNewProjectToDB(project);
 
 }
 
