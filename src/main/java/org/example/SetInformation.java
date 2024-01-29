@@ -24,23 +24,7 @@ public class SetInformation {
         }
 
     }
-    public  static  void setWorkload(){
-        Statement stmt;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/autotask", "root", ""
-            );
-            String sql="INSERT INTO workload (projectID,staffID,availability)" +
-                    "VALUES (2,2,0);";
-            stmt=connection.createStatement();
-            stmt.execute(sql);
-            connection.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
 
-    }
     public  static  void addNewStaffToDB(Staff staff){
         Statement stmt;
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -77,8 +61,8 @@ public class SetInformation {
             Connection connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/autotask", "root", ""
             );
-            String sql="INSERT INTO project (projectName,deadLine,staffID,skillID)" +
-                    "VALUES ('"+project.getProjectName()+"','"+project.getDeadLine()+ "',"+project.getStaffID()+","+project.getSkillID()+");";
+            String sql="INSERT INTO project (projectName,deadLine,availability,staffID)" +
+                    "VALUES ('"+project.getProjectName()+"','"+project.getDeadLine()+ "',"+project.isAvailability()+","+project.getStaffID()+");";
             stmt=connection.createStatement();
             stmt.execute(sql);
             connection.close();

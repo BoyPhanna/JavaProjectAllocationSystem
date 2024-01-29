@@ -87,13 +87,13 @@ public class GetInformation {
             while (resultSet.next()) {
                 Project project =new Project();
                 project.setProjectID(resultSet.getInt(1) );
-                project.setProjectName(resultSet.getString(2) );
-                Timestamp tm=resultSet.getTimestamp(3);
+                Timestamp tm=resultSet.getTimestamp(2);
                 project.setDeadLine(tm.toLocalDateTime());
-                project.setStaffID(resultSet.getInt(4));
-                project.setSkillID(resultSet.getInt(5));
-
+                project.setProjectName(resultSet.getString(3) );
+                project.setAvailability(resultSet.getBoolean(4));
+                project.setStaffID(resultSet.getInt(5));
                 projects.add(project);
+                System.out.println("Id : "+project.getProjectID());
 
             }
             connection.close();
@@ -109,20 +109,29 @@ public class GetInformation {
     public static List<Workload> getWorkloadInfo(){
         List<Workload> workloads=new ArrayList<>();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/autotask", "root", ""
             );
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from workload");
+            ResultSet resultSet = statement.executeQuery("SELECT staff.staffID, staff.staffName, skill.id, skill.name,project.projectID, project.projectName, project.deadLine, project.availability\n" +
+                    "FROM staff\n" +
+                    "LEFT JOIN project ON staff.staffID = project.staffID  \n" +
+                    "LEFT JOIN skill ON staff.skillID = skill.id\n" +
+                    "WHERE project.deadLine IS NOT NULL;");
 
             while (resultSet.next()) {
-                Workload workload=new Workload();
-                workload.setWorkloadID(resultSet.getInt(1) );
-                workload.setProjectID(resultSet.getInt(2) );
-                workload.setAvailability(resultSet.getBoolean(3) );
+                Workload workload =new Workload();
+                workload.setStaffID(resultSet.getInt(1) );
+                workload.setStaffName(resultSet.getString(2) );
+                workload.setSkillID(resultSet.getInt(3));
+                workload.setSkillName(resultSet.getString(4) );
+                workload.setProjectID(resultSet.getInt(5));
+                workload.setProjectName(resultSet.getString(6) );
+                Timestamp tm=resultSet.getTimestamp(7);
+                workload.setDeadLine(tm.toLocalDateTime());
+                workload.setAvailability(resultSet.getBoolean(8));
 
                 workloads.add(workload);
 
@@ -136,4 +145,38 @@ public class GetInformation {
 
         return workloads;
     }
+    public static List<Person> getStaffToDoProject(int skillID,LocalDateTime dateTime){
+        String[] stringDateTime=dateTime.toString().split("T");
+        List<Person> persons=new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/autotask", "root", ""
+            );
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT staff.staffID,staff.staffName\n" +
+                    "FROM \n" +
+                    "staff  LEFT JOIN project \n" +
+                    "ON staff.staffID=project.staffID \n" +
+                    "WHERE staff.skillID="+skillID+" AND (project.deadLine < '"+stringDateTime[0]+" "+stringDateTime[1]+"' OR project.deadLine IS NULL);\n");
+
+            while (resultSet.next()) {
+                Person person = new Person();
+                person.setId(resultSet.getInt(1) );
+                person.setName(resultSet.getString(2) );
+
+                persons.add(person);
+
+            }
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+
+        return persons;
+    }
+
 }

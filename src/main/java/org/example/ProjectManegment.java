@@ -9,8 +9,8 @@ import java.util.Scanner;
 public class ProjectManegment {
     List<Project> projects=new ArrayList<>();
     List<Workload> workloads=new ArrayList<>();
-ProjectManegment(List<Project> prjects,List<Workload> workloads){
-    this.projects=prjects;
+ProjectManegment(List<Project> projects,List<Workload> workloads){
+    this.projects=projects;
     this.workloads=workloads;
     Scanner input=new Scanner(System.in);
     char x=' ';
@@ -49,14 +49,14 @@ ProjectManegment(List<Project> prjects,List<Workload> workloads){
     }
 }
 public   void showProject(){
-        String leftAlignFormat = "| %-4d  %-15s %-30s %-10d %-10d  |%n";
+        String leftAlignFormat = "| %-4d  %-15s %-30s %-10s %-10d  |%n";
         System.out.format("+-----------------------------------------------------------------------------+%n");
-        System.out.format("| %-4s  %-15s %-30s %-10s %-10s  |%n","id","Project name","Dead Line","Staff ID","Skill ID");
+        System.out.format("| %-4s  %-15s %-30s %-10s %-10s  |%n","id","Project name","Dead Line","availability","Staff ID");
         System.out.format("+-----------------------------------------------------------------------------|%n");
 
         for (Project project:projects) {
             System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(),
-                    project.getDeadLine(),project.getStaffID(),project.getSkillID()
+                    project.getDeadLine(),project.isAvailability(),project.getStaffID()
             );
         }
         System.out.format("+-----------------------------------------------------------------------------+%n");
@@ -65,12 +65,15 @@ public  void searchProject(){
     Scanner input=new Scanner(System.in);
     Project project=new Project();
     int x;
+   int id;
     int index=0;
     boolean b=false;
-
-    System.out.print("Enter project id: ");x=input.nextInt();
+System.out.println("size of project : "+projects.size());
+    System.out.print("Enter project id: ");id=input.nextInt();
     for(Project project2: projects ){
-        if(project2.getProjectID()==x){
+        System.out.println("ID "+project2.getStaffID());
+        if(project2.getProjectID()==id){
+
             b=true;
             project=project2;
             break;
@@ -79,16 +82,16 @@ public  void searchProject(){
     }
     if(b){
 
-        String leftAlignFormat = "| %-4d  %-15s %-30s %-10d %-10d  |%n";
+        String leftAlignFormat = "| %-4d  %-15s %-30s %-10s %-10d  |%n";
         System.out.format("+-----------------------------------------------------------------------------+%n");
-        System.out.format("| %-4s  %-15s %-30s %-10s %-10s  |%n","id","Project name","Dead Line","Staff ID","Skill ID");
+        System.out.format("| %-4s  %-15s %-30s %-10s %-10s |%n","id","Project name","Dead Line","availability","Staff ID");
         System.out.format("+-----------------------------------------------------------------------------|%n");
-        System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(), project.getDeadLine(),project.getStaffID(),project.getSkillID()
+        System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(), project.getDeadLine(),project.isAvailability(),project.getStaffID()
         );
         System.out.format("+-----------------------------------------------------------------------------+%n");
         System.out.print("Do you want to edit? y/n : ");x=input.next().charAt(0);
         if(x=='y'){
-            editProject(index,project);
+            editProject(index,project,id);
         }
 
     }
@@ -98,7 +101,8 @@ public  void searchProject(){
 
 }
 
-public   void editProject(int index,Project project){
+public   void editProject(int index,Project project,int id){
+    System.out.println(index);
     Scanner input=new Scanner(System.in);
     String name;
     char x;
@@ -111,7 +115,7 @@ public   void editProject(int index,Project project){
     System.out.format("+------+-------------------------------+%n");
     System.out.format("| 3    |  staff id                     |%n");
     System.out.format("+------+-------------------------------+%n");
-    System.out.format("| 4    |  skill id                     |%n");
+    System.out.format("| 4    |  availability                 |%n");
     System.out.format("+------+-------------------------------+%n");
     System.out.format("| 5    |  Exit                         |%n");
     System.out.format("+------+-------------------------------+%n");
@@ -123,52 +127,70 @@ public   void editProject(int index,Project project){
             input.nextLine();
             name=input.nextLine();
             project.setProjectName(name);
+            UpdateInformation.updateProjectName(name,id);
             break;
         case '2':
+            System.out.print("Enter new dead Line: ");
+            String dateTimeString=input.next();
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            project.setDeadLine(dateTime);
             break;
         case '3':
             System.out.print("Enter new staff id : ");
-            project.setStaffID(input.nextInt());
             break;
         case '4':
-            System.out.print("Enter new skill id: ");
-            project.setSkillID(input.nextInt());
+            System.out.print("Enter availability: ");
+            project.setAvailability(input.nextBoolean());
             break;
     }
     projects.set(index,project);
+    workloads=GetInformation.getWorkloadInfo();
 }
 
 public  void taskAllocation(){
     Project project =new Project();
     Scanner input=new Scanner(System.in);
     String dateTimeString ;
+    int id;
     project.setProjectID(projects.size()+1);
     System.out.print("Enter project name: ");project.setProjectName(input.nextLine());
-    System.out.print("Enter skillID: ");project.setSkillID(input.nextInt());
+    System.out.print("Enter skillID: ");id=input.nextInt();
     System.out.print("Enter project Dead Line ( yyyy-mm-ddThh:mm:ss )  :  ");
     input.nextLine();
     dateTimeString=input.nextLine();
     LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     project.setDeadLine(dateTime);
-    System.out.print("Enter staff id: ");project.setStaffID(input.nextInt());
+    List<Person> persons=GetInformation.getStaffToDoProject(id,project.getDeadLine());
+    for (Person person:persons
+         ) {
+        System.out.println(person.getId()+"   "+person.getName());
+    }
+    if(persons.size()>0){
+        project.setStaffID(persons.get(0).getId());
+        projects.add(project);
+        SetInformation.addNewProjectToDB(project);
+    }
+    else {
+        System.out.println("Nobody free");
+    }
 
-    projects.add(project);
-    SetInformation.addNewProjectToDB(project);
+
 
 }
 
 public  void showWorkload(){
 
-    String leftAlignFormat = "| %-4d  %-15d %-10s   |%n";
-    System.out.format("+------------------------------------+%n");
-    System.out.format("| %-4s  %-15s %-10s |%n","id","project id","availability");
-    System.out.format("|------------------------------------|%n");
+    String leftAlignFormat = "| %-10d  %-15s %-10d %-15s %-20d %-20s %-30s %-20s  |%n";
+    System.out.format("+-------------------------------------------------------------------------------------------------------------------------------------------------------+%n");
+    System.out.format("| %-10s  %-15s %-10s  %-15s %-20s %-20s %-30s %-20s |%n","staff id","staff name","skill ID","Skill Name","Project ID","Project Name","Dead Line","availability");
+    System.out.format("|-------------------------------------------------------------------------------------------------------------------------------------------------------|%n");
     for(Workload workload:workloads) {
-        System.out.format(leftAlignFormat, workload.getWorkloadID(), workload.getProjectID(), workload.isAvailability()
+        System.out.format(leftAlignFormat, workload.getStaffID(), workload.getStaffName(),
+                workload.getSkillID(),workload.getSkillName(),workload.getProjectID(),workload.getProjectName(),
+                workload.getDeadLine(), workload.isAvailability()
         );
     }
-    System.out.format("+------------------------------------+%n");
-
+    System.out.format("+-------------------------------------------------------------------------------------------------------------------------------------------------------+%n");
 }
 
 

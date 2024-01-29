@@ -5,24 +5,24 @@ import java.time.LocalDateTime;
 public class Project {
     private int projectID;
     private  String projectName;
-    LocalDateTime deadLine;
+   private  LocalDateTime deadLine;
     private  int  staffID;
-    private int skillID;
 
+    boolean availability;
     public  Project(){
         this.projectID=0;
         this.projectName="non";
-        this.skillID=0;
+        this.availability=false;
         this.staffID=0;
         this.deadLine=LocalDateTime.of(2000,12,24,12,20,22);
     }
 
-    public Project(int projectID, String projectName, LocalDateTime deadLine, int staffID, int skillID) {
+    public Project(int projectID, String projectName, LocalDateTime deadLine, int staffID, boolean availability) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.deadLine = deadLine;
         this.staffID = staffID;
-        this.skillID = skillID;
+        this.availability = availability;
     }
 
     public int getProjectID() {
@@ -57,11 +57,11 @@ public class Project {
         this.staffID = staffID;
     }
 
-    public int getSkillID() {
-        return skillID;
+    public boolean isAvailability() {
+        return availability;
     }
 
-    public void setSkillID(int skillID) {
-        this.skillID = skillID;
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
     }
 }

@@ -22,16 +22,7 @@ public class Main {
         List<Skill> skills = GetInformation.getSkillInfo();
         List<Project> projects = GetInformation.getProjectInfo();
         List<Workload> workloads = GetInformation.getWorkloadInfo();
-
-        try {
-            MusicTest.playMusic();
-        } catch (UnsupportedAudioFileException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (LineUnavailableException e) {
-            throw new RuntimeException(e);
-        }
+        openMusic();
 
         while (x !='4'){
         System.out.format("+--------------------------------------+%n");
@@ -52,20 +43,30 @@ public class Main {
         switch (x) {
             case '1':
                 new ProjectManegment(projects, workloads);
-
                 break;
             case '2':
                 new StaffManegment(staffs, skills);
                 break;
             case '3':
-                break;
-            case '4':
+                new  SkillManegment(skills);
+            break;
 
         }
     }
 
     }
 
+public static void  openMusic(){
+    try {
+        MusicTest.playMusic();
+    } catch (UnsupportedAudioFileException e) {
+        throw new RuntimeException(e);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    } catch (LineUnavailableException e) {
+        throw new RuntimeException(e);
+    }
+}
 
 
 
