@@ -31,6 +31,8 @@ ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> ski
         System.out.format("+------+-------------------------------+%n");
         System.out.format("| 5    |  show workload                |%n");
         System.out.format("+------+-------------------------------+%n");
+        System.out.format("| 6    |  exit                         |%n");
+        System.out.format("+------+-------------------------------+%n");
         System.out.print("Enter number : ");
         x = input.next().charAt(0);
         switch (x) {
@@ -51,17 +53,17 @@ ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> ski
     }
 }
 public   void showProject(){
-        String leftAlignFormat = "| %-4d  %-15s %-30s %-10s %-10d  |%n";
-        System.out.format("+-----------------------------------------------------------------------------+%n");
+        String leftAlignFormat = "| %-4d  %-15s %-30s %-10s %-10d    |%n";
+        System.out.format("+-------------------------------------------------------------------------------+%n");
         System.out.format("| %-4s  %-15s %-30s %-10s %-10s  |%n","id","Project name","Dead Line","availability","Staff ID");
-        System.out.format("+-----------------------------------------------------------------------------|%n");
+        System.out.format("+-------------------------------------------------------------------------------|%n");
 
         for (Project project:projects) {
             System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(),
-                    project.getDeadLine(),project.isAvailability(),project.getStaffID()
+                    project.getDeadLine().toString().replace('T',' '),project.isAvailability(),project.getStaffID()
             );
         }
-        System.out.format("+-----------------------------------------------------------------------------+%n");
+        System.out.format("+-------------------------------------------------------------------------------+%n");
     }
 public  void searchProject(){
     Scanner input=new Scanner(System.in);
@@ -73,7 +75,7 @@ public  void searchProject(){
 //System.out.println("size of project : "+projects.size());
     System.out.print("Enter project id: ");id=input.nextInt();
     for(Project project2: projects ){
-        System.out.println("ID "+project2.getStaffID());
+
         if(project2.getProjectID()==id){
 
             b=true;
@@ -88,7 +90,7 @@ public  void searchProject(){
         System.out.format("+-----------------------------------------------------------------------------+%n");
         System.out.format("| %-4s  %-15s %-30s %-10s %-10s |%n","id","Project name","Dead Line","availability","Staff ID");
         System.out.format("+-----------------------------------------------------------------------------|%n");
-        System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(), project.getDeadLine(),project.isAvailability(),project.getStaffID()
+        System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(), project.getDeadLine().toString().replace('T',' '),project.isAvailability(),project.getStaffID()
         );
         System.out.format("+-----------------------------------------------------------------------------+%n");
         System.out.print("Do you want to edit? y/n : ");x=input.next().charAt(0);
@@ -119,7 +121,7 @@ public   void editProject(int index,Project project,int id){
     System.out.format("+------+-------------------------------+%n");
     System.out.format("| 4    |  availability                 |%n");
     System.out.format("+------+-------------------------------+%n");
-    System.out.format("| 5    |  Exit                         |%n");
+    System.out.format("| 5    |  Delete project               |%n");
     System.out.format("+------+-------------------------------+%n");
     System.out.print("Enter number : ");x=input.next().charAt(0);
 
@@ -136,14 +138,22 @@ public   void editProject(int index,Project project,int id){
             String dateTimeString=input.next();
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             project.setDeadLine(dateTime);
+            UpdateInformation.updateProjectDateLine(project);
             break;
         case '3':
             System.out.print("Enter new staff id : ");
+            project.setStaffID(input.nextInt());
+            UpdateInformation.updateProjectStaffID(project);
             break;
         case '4':
             System.out.print("Enter availability: ");
             project.setAvailability(input.nextBoolean());
+            UpdateInformation.updateProjectAvailability(project);
             break;
+        case '5':
+            DeleteInformation.DeleteProject(project);
+            break;
+
     }
     projects.set(index,project);
     workloads=GetInformation.getWorkloadInfo();
@@ -198,7 +208,7 @@ public  void showWorkload(){
     for(Workload workload:workloads) {
         System.out.format(leftAlignFormat, workload.getStaffID(), workload.getStaffName(),
                 workload.getSkillID(),workload.getSkillName(),workload.getProjectID(),workload.getProjectName(),
-                workload.getDeadLine(), workload.isAvailability()
+                workload.getDeadLine().toString().replace('T',' '), workload.isAvailability()
         );
     }
     System.out.format("+-------------------------------------------------------------------------------------------------------------------------------------------------------+%n");
