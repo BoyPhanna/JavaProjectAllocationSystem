@@ -1,5 +1,8 @@
 package org.example;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +22,16 @@ public class Main {
         List<Skill> skills = GetInformation.getSkillInfo();
         List<Project> projects = GetInformation.getProjectInfo();
         List<Workload> workloads = GetInformation.getWorkloadInfo();
+
+        try {
+            MusicTest.playMusic();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
 
         while (x !='4'){
         System.out.format("+--------------------------------------+%n");

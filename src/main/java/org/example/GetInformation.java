@@ -92,7 +92,7 @@ public class GetInformation {
                 project.setDeadLine(tm.toLocalDateTime());
                 project.setStaffID(resultSet.getInt(4));
                 project.setSkillID(resultSet.getInt(5));
-System.out.println(project.getProjectName());
+
                 projects.add(project);
 
             }
