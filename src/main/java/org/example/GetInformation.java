@@ -93,7 +93,7 @@ public class GetInformation {
                 project.setAvailability(resultSet.getBoolean(4));
                 project.setStaffID(resultSet.getInt(5));
                 projects.add(project);
-                System.out.println("Id : "+project.getProjectID());
+
 
             }
             connection.close();

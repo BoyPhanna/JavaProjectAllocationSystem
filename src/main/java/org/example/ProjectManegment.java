@@ -9,7 +9,9 @@ import java.util.Scanner;
 public class ProjectManegment {
     List<Project> projects=new ArrayList<>();
     List<Workload> workloads=new ArrayList<>();
-ProjectManegment(List<Project> projects,List<Workload> workloads){
+    List<Skill> skills=new ArrayList<>();
+ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> skills){
+    this.skills=skills;
     this.projects=projects;
     this.workloads=workloads;
     Scanner input=new Scanner(System.in);
@@ -68,7 +70,7 @@ public  void searchProject(){
    int id;
     int index=0;
     boolean b=false;
-System.out.println("size of project : "+projects.size());
+//System.out.println("size of project : "+projects.size());
     System.out.print("Enter project id: ");id=input.nextInt();
     for(Project project2: projects ){
         System.out.println("ID "+project2.getStaffID());
@@ -154,6 +156,17 @@ public  void taskAllocation(){
     int id;
     project.setProjectID(projects.size()+1);
     System.out.print("Enter project name: ");project.setProjectName(input.nextLine());
+    String leftAlignFormat = "| %-4d | %-15s |%n";
+    System.out.format("+------------------------+%n");
+    System.out.format("| %-4s | %-15s |%n","id","skill name");
+    System.out.format("+------------------------+%n");
+
+    for (Skill skill:
+            skills) {
+        System.out.format(leftAlignFormat,skill.getSkillID(),skill.getSkillName());
+
+    }
+    System.out.format("+------------------------+%n");
     System.out.print("Enter skillID: ");id=input.nextInt();
     System.out.print("Enter project Dead Line ( yyyy-mm-ddThh:mm:ss )  :  ");
     input.nextLine();
@@ -161,14 +174,12 @@ public  void taskAllocation(){
     LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     project.setDeadLine(dateTime);
     List<Person> persons=GetInformation.getStaffToDoProject(id,project.getDeadLine());
-    for (Person person:persons
-         ) {
-        System.out.println(person.getId()+"   "+person.getName());
-    }
+
     if(persons.size()>0){
         project.setStaffID(persons.get(0).getId());
         projects.add(project);
         SetInformation.addNewProjectToDB(project);
+        workloads=GetInformation.getWorkloadInfo();
     }
     else {
         System.out.println("Nobody free");

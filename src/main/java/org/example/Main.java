@@ -22,7 +22,7 @@ public class Main {
         List<Skill> skills = GetInformation.getSkillInfo();
         List<Project> projects = GetInformation.getProjectInfo();
         List<Workload> workloads = GetInformation.getWorkloadInfo();
-        openMusic();
+//        openMusic();
 
         while (x !='4'){
         System.out.format("+--------------------------------------+%n");
@@ -42,7 +42,7 @@ public class Main {
         x = input.next().charAt(0);
         switch (x) {
             case '1':
-                new ProjectManegment(projects, workloads);
+                new ProjectManegment(projects, workloads,skills);
                 break;
             case '2':
                 new StaffManegment(staffs, skills);
