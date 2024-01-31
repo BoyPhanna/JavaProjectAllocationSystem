@@ -36,6 +36,9 @@ public class StaffManegment {
                     showStaff(staffs);
                     input.nextLine();
                     break;
+                case '2':
+                    searchStaff();
+                    break;
                 case '3':
                     addNewStaff(skills);
                     break;
@@ -97,5 +100,16 @@ staffs.add(staff);
 
     }
 
+    public  void  searchStaff(){
+        Scanner input=new Scanner(System.in);
+        System.out.print("Enter staff id : ");int id=input.nextInt();
+        for (Staff staff:staffs
+             ) {
+            if(staff.getId()==id){
+
+                break;
+            }
+        }
+    }
 
 }
