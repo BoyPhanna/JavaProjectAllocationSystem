@@ -71,4 +71,23 @@ public class SetInformation {
         }
 
     }
+
+    public  static  void addNewSkillToDB(Skill skill){
+        Statement stmt;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/autotask", "root", ""
+            );
+            String sql="INSERT INTO skill (name)" +
+                    "VALUES ('"+skill.getSkillName()+ "');";
+            stmt=connection.createStatement();
+            stmt.execute(sql);
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
 }

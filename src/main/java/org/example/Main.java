@@ -49,6 +49,7 @@ public class Main {
                 break;
             case '3':
                 new  SkillManegment(skills);
+
             break;
 
         }

@@ -110,4 +110,31 @@ public class UpdateInformation {
         }
 
     }
+    public  static  void updateSkillName(Skill skill){
+        String url = "jdbc:mysql://localhost:3306/autotask";
+        String username = "root";
+        String password = "";
+        ZoneId zoneId = ZoneId.of("Asia/Phnom_Penh");  // Adjust for your desired time zone
+
+
+
+        String updateQuery = "UPDATE skill SET name = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+
+            // Set values for update parameters
+            statement.setString(1,skill.getSkillName());
+            statement.setInt(2,skill.getSkillID());
+
+
+            // Execute the update
+            int rowsUpdated = statement.executeUpdate();
+
+            System.out.println("Updated " + rowsUpdated + " rows");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
