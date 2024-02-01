@@ -85,4 +85,31 @@ public class DeleteInformation {
         }
 
     }
+
+    public  static  void DeleteProject(int id){
+        String url = "jdbc:mysql://localhost:3306/autotask";
+        String username = "root";
+        String password = "";
+        ZoneId zoneId = ZoneId.of("Asia/Phnom_Penh");  // Adjust for your desired time zone
+
+
+
+        String updateQuery = "DELETE FROM project WHERE projectID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+
+            // Set values for update parameters
+
+            statement.setInt(1, id); // replace with your ID
+
+            // Execute the update
+            int rowsUpdated = statement.executeUpdate();
+
+            System.out.println("Delete " + rowsUpdated + " rows");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

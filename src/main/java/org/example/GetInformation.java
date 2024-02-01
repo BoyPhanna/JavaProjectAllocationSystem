@@ -159,7 +159,7 @@ public class GetInformation {
                     "FROM \n" +
                     "staff  LEFT JOIN project \n" +
                     "ON staff.staffID=project.staffID \n" +
-                    "WHERE staff.skillID="+skillID+" AND (project.deadLine < '"+stringDateTime[0]+" "+stringDateTime[1]+"' OR project.deadLine IS NULL);\n");
+                    "WHERE staff.skillID="+skillID+" AND (project.deadLine < '"+stringDateTime[0]+" "+stringDateTime[1]+"' OR project.deadLine IS NULL OR project.availability=1);\n");
 
             while (resultSet.next()) {
                 Person person = new Person();

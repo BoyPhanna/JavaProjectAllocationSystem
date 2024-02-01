@@ -46,13 +46,25 @@ ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> ski
             case '3':
                 taskAllocation();
                 break;
+            case '4':
+                deleteProject();
+                break;
             case '5':
                showWorkload();
                 break;
         }
     }
 }
-public   void showProject(){
+
+    private void deleteProject() {
+        Scanner input=new Scanner(System.in);
+        System.out.print("Enter project id: ");int id=input.nextInt();
+        DeleteInformation.DeleteProject(id);
+        projects=GetInformation.getProjectInfo();
+        workloads=GetInformation.getWorkloadInfo();
+    }
+
+    public   void showProject(){
         String leftAlignFormat = "| %-4d  %-15s %-30s %-10s %-10d    |%n";
         System.out.format("+-------------------------------------------------------------------------------+%n");
         System.out.format("| %-4s  %-15s %-30s %-10s %-10s  |%n","id","Project name","Dead Line","availability","Staff ID");
@@ -166,17 +178,7 @@ public  void taskAllocation(){
     int id;
     project.setProjectID(projects.size()+1);
     System.out.print("Enter project name: ");project.setProjectName(input.nextLine());
-    String leftAlignFormat = "| %-4d | %-15s |%n";
-    System.out.format("+------------------------+%n");
-    System.out.format("| %-4s | %-15s |%n","id","skill name");
-    System.out.format("+------------------------+%n");
-
-    for (Skill skill:
-            skills) {
-        System.out.format(leftAlignFormat,skill.getSkillID(),skill.getSkillName());
-
-    }
-    System.out.format("+------------------------+%n");
+    showAllSkill();
     System.out.print("Enter skillID: ");id=input.nextInt();
     System.out.print("Enter project Dead Line ( yyyy-mm-ddThh:mm:ss )  :  ");
     input.nextLine();
@@ -213,6 +215,19 @@ public  void showWorkload(){
     }
     System.out.format("+-------------------------------------------------------------------------------------------------------------------------------------------------------+%n");
 }
+    public void showAllSkill(){
+        String leftAlignFormat = "| %-4d | %-15s |%n";
+        System.out.format("+------------------------+%n");
+        System.out.format("| %-4s | %-15s |%n","id","skill name");
+        System.out.format("+------------------------+%n");
 
+        for (Skill skill:
+                skills) {
+            System.out.format(leftAlignFormat,skill.getSkillID(),skill.getSkillName());
+
+        }
+        System.out.format("+------------------------+%n");
+
+    }
 
 }
