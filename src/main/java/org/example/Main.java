@@ -21,11 +21,11 @@ public class Main {
         List<Skill> skills = GetInformation.getSkillInfo();
         List<Project> projects = GetInformation.getProjectInfo();
         List<Workload> workloads = GetInformation.getWorkloadInfo();
-        openMusic();
+//        openMusic();
 
         while (x !='4'){
         System.out.format("+--------------------------------------+%n");
-        System.out.format("| Group6B Task Automation asigment     |%n");
+        System.out.format("| Group6B Task Automation assignment   |%n");
         System.out.format("+------+-------------------------------+%n");
         System.out.format("| 1    |  Task Management              |%n");
         System.out.format("+------+-------------------------------+%n");
