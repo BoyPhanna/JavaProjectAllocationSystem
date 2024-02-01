@@ -297,4 +297,27 @@ public class UpdateInformation {
             e.printStackTrace();
         }
     }
+    public  static  void updateStaffPhone(Staff staff){
+        String url = "jdbc:mysql://localhost:3306/autotask";
+        String username = "root";
+        String password = "";
+
+
+        String updateQuery = "UPDATE staff SET phone = ? WHERE staffID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+            // Set values for update parameters
+            statement.setString(1,staff.getPhone());
+            statement.setInt(2,staff.getId());
+
+
+            // Execute the update
+            int rowsUpdated = statement.executeUpdate();
+
+            System.out.println("Updated " + rowsUpdated + " rows");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

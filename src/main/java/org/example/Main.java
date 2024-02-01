@@ -18,7 +18,6 @@ public class Main {
         Scanner input = new Scanner(System.in);
         char x='8';
         List<Staff> staffs = GetInformation.getStaffInfo();
-        ;
         List<Skill> skills = GetInformation.getSkillInfo();
         List<Project> projects = GetInformation.getProjectInfo();
         List<Workload> workloads = GetInformation.getWorkloadInfo();
