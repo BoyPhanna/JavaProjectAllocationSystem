@@ -1,5 +1,10 @@
 package org.example;
 
+import org.nocrala.tools.texttablefmt.BorderStyle;
+import org.nocrala.tools.texttablefmt.CellStyle;
+import org.nocrala.tools.texttablefmt.ShownBorders;
+import org.nocrala.tools.texttablefmt.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,25 +15,36 @@ public class SkillManegment {
         this.skills=skills;
         Scanner input=new Scanner(System.in);
         char x=' ';
+
+        CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+        CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
+        Table listTable =new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+        Table listTable2 =new Table(1, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+
+        listTable2.setColumnWidth(0,37,60);
+        listTable.setColumnWidth(0,5,10);
+        listTable.setColumnWidth(1,20,40);
+
+        listTable2.addCell("Skill Management",cellStyle2);
+        listTable.addCell("1",cellStyle);
+        listTable.addCell("Show all skill",cellStyle);
+        listTable.addCell("2",cellStyle);
+        listTable.addCell("Search and edit skill by id",cellStyle);
+        listTable.addCell("3",cellStyle);
+        listTable.addCell("Add new skill",cellStyle);
+        listTable.addCell("4",cellStyle);
+        listTable.addCell("Delete skill ",cellStyle);
+        listTable.addCell("5",cellStyle);
+        listTable.addCell("Exit",cellStyle);
         while (x!='5') {
-            System.out.format("+--------------------------------------+%n");
-            System.out.format("|        Skill Manegment               |%n");
-            System.out.format("+------+-------------------------------+%n");
-            System.out.format("| 1    |  Show all skill information   |%n");
-            System.out.format("+------+-------------------------------+%n");
-            System.out.format("| 2    |  Search and edit staff by id  |%n");
-            System.out.format("+------+-------------------------------+%n");
-            System.out.format("| 3    |  Add new skill                |%n");
-            System.out.format("+------+-------------------------------+%n");
-            System.out.format("| 4    |  Delete skill                 |%n");
-            System.out.format("+------+-------------------------------+%n");
-            System.out.format("| 5    |  Exit                         |%n");
-            System.out.format("+------+-------------------------------+%n");
+
+            System.out.println(listTable2.render()+"\n"+listTable.render());
             System.out.print("Enter number : ");
             x = input.next().charAt(0);
             switch (x) {
                 case '1':
                     showSkill();
+                    input.nextLine();
                     input.nextLine();
                     break;
                 case '2':
@@ -44,15 +60,21 @@ public class SkillManegment {
         }
     }
     public  void  showSkill(){
-        String leftAlignFormat = "| %-4d  %-15s |%n";
-        System.out.format("+-----------------------+%n");
-        System.out.format("| %-4s  %-15s |%n","id","skill name");
-        System.out.format("+-----------------------+%n");
+        CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+        Table listTable =new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+        listTable.setColumnWidth(0,5,10);
+        listTable.setColumnWidth(1,20,40);
+
+
+
+        listTable.addCell("id",cellStyle);
+        listTable.addCell("skill name",cellStyle);
+
         for (Skill skill:skills) {
-            System.out.format(leftAlignFormat,skill.getSkillID(),skill.getSkillName()
-            );
+            listTable.addCell(String.valueOf(skill.getSkillID()),cellStyle);
+            listTable.addCell(skill.getSkillName(),cellStyle);
         }
-        System.out.format("+-----------------------+%n");
+        System.out.println(listTable.render());
 
     }
     public   void searchSkill(){
@@ -62,12 +84,15 @@ public class SkillManegment {
         for (Skill skill: skills
              ) {
             if(skill.skillID==id){
-                String leftAlignFormat = "| %-4d  %-15s |%n";
-                System.out.format("+-----------------------+%n");
-                System.out.format("| %-4s  %-15s |%n","id","skill name");
-                System.out.format("+-----------------------+%n");
-                System.out.format(leftAlignFormat,skill.getSkillID(),skill.getSkillName());
-                System.out.format("+-----------------------+%n");
+                CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+                Table listTable =new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+                listTable.setColumnWidth(0,5,10);
+                listTable.setColumnWidth(1,20,40);
+                listTable.addCell("id",cellStyle);
+                listTable.addCell("skill name",cellStyle);
+                listTable.addCell(String.valueOf(skill.getSkillID()),cellStyle);
+                listTable.addCell(skill.getSkillName(),cellStyle);
+                System.out.println(listTable.render());
                 System.out.print("Do you want to skill? (y/n): ");
                 char n=input.next().charAt(0);
                 if (n=='y'){

@@ -1,5 +1,10 @@
 package org.example;
 
+import org.nocrala.tools.texttablefmt.BorderStyle;
+import org.nocrala.tools.texttablefmt.CellStyle;
+import org.nocrala.tools.texttablefmt.ShownBorders;
+import org.nocrala.tools.texttablefmt.Table;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
@@ -23,19 +28,27 @@ public class Main {
         List<Workload> workloads = GetInformation.getWorkloadInfo();
         openMusic();
 
-        while (x !='4'){
-        System.out.format("+--------------------------------------+%n");
-        System.out.format("| Group6B Task Automation assignment   |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 1    |  Task Management              |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 2    |  Staff Management             |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 3    |  Skill Management             |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 4    |  Exit                         |%n");
-        System.out.format("+------+-------------------------------+%n");
+        CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+        CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
+        Table listTable =new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+        Table listTable2 =new Table(1, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+        listTable2.setColumnWidth(0,28,50);
+        listTable.setColumnWidth(0,5,10);
+        listTable.setColumnWidth(1,20,40);
 
+        listTable2.addCell("Task Allowcation",cellStyle2);
+        listTable.addCell("1",cellStyle);
+        listTable.addCell("Task Management",cellStyle);
+        listTable.addCell("2",cellStyle);
+        listTable.addCell("Staff Management",cellStyle);
+        listTable.addCell("3",cellStyle);
+        listTable.addCell("Skill Management",cellStyle);
+        listTable.addCell("4",cellStyle);
+        listTable.addCell("Exit",cellStyle);
+
+
+        while (x !='4'){
+            System.out.println(listTable2.render()+"\n"+listTable.render());
 
         System.out.print("Enter number: ");
         x = input.next().charAt(0);

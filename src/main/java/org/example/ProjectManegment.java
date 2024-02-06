@@ -1,5 +1,10 @@
 package org.example;
 
+import org.nocrala.tools.texttablefmt.BorderStyle;
+import org.nocrala.tools.texttablefmt.CellStyle;
+import org.nocrala.tools.texttablefmt.ShownBorders;
+import org.nocrala.tools.texttablefmt.Table;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,29 +20,41 @@ ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> ski
     this.projects=projects;
     this.workloads=workloads;
     Scanner input=new Scanner(System.in);
+    CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+    CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
+    Table listTable =new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+    Table listTable2 =new Table(1, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+
+    listTable2.setColumnWidth(0,37,60);
+    listTable.setColumnWidth(0,5,10);
+    listTable.setColumnWidth(1,20,40);
+
+    listTable2.addCell("Project Manegment",cellStyle2);
+    listTable.addCell("1",cellStyle);
+    listTable.addCell("Show all Project",cellStyle);
+    listTable.addCell("2",cellStyle);
+    listTable.addCell("Search and edit project by id",cellStyle);
+    listTable.addCell("3",cellStyle);
+    listTable.addCell("task allocation",cellStyle);
+    listTable.addCell("4",cellStyle);
+    listTable.addCell("Delete project  ",cellStyle);
+    listTable.addCell("5",cellStyle);
+    listTable.addCell("show workload",cellStyle);
+    listTable.addCell("6",cellStyle);
+    listTable.addCell("Exit",cellStyle);
     char x=' ';
 
     while (x!='6') {
-        System.out.format("+--------------------------------------+%n");
-        System.out.format("|        Project Manegment             |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 1    |  Show all Project             |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 2    |  Search and edit project by id|%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 3    |  task allocation              |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 4    |  Delete project               |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 5    |  show workload                |%n");
-        System.out.format("+------+-------------------------------+%n");
-        System.out.format("| 6    |  exit                         |%n");
-        System.out.format("+------+-------------------------------+%n");
+
+        System.out.println(listTable2.render()+"\n"+listTable.render());
+
+
         System.out.print("Enter number : ");
         x = input.next().charAt(0);
         switch (x) {
             case '1':
                 showProject();
+                input.nextLine();
                 input.nextLine();
                 break;
             case '2':
@@ -51,6 +68,8 @@ ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> ski
                 break;
             case '5':
                showWorkload();
+               input.nextLine();
+               input.nextLine();
                 break;
         }
     }
@@ -65,17 +84,37 @@ ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> ski
     }
 
     public   void showProject(){
-        String leftAlignFormat = "| %-4d  %-15s %-30s %-10s %-10d    |%n";
-        System.out.format("+-------------------------------------------------------------------------------+%n");
-        System.out.format("| %-4s  %-15s %-30s %-10s %-10s  |%n","id","Project name","Dead Line","availability","Staff ID");
-        System.out.format("+-------------------------------------------------------------------------------|%n");
+
+        CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+        CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
+        Table listTable =new Table(5, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+        listTable.setColumnWidth(0,5,10);
+        listTable.setColumnWidth(1,20,40);
+        listTable.setColumnWidth(2,20,40);
+        listTable.setColumnWidth(3,20,40);
+        listTable.setColumnWidth(4,20,40);
+
+
+        listTable.addCell("id",cellStyle);
+        listTable.addCell("Project name",cellStyle);
+        listTable.addCell("Dead Line",cellStyle);
+        listTable.addCell("availability",cellStyle);
+        listTable.addCell("Staff ID",cellStyle);
+
+
+
 
         for (Project project:projects) {
-            System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(),
-                    project.getDeadLine().toString().replace('T',' '),project.isAvailability(),project.getStaffID()
-            );
+
+            listTable.addCell(String.valueOf(project.getProjectID()),cellStyle);
+            listTable.addCell(project.getProjectName(),cellStyle);
+            listTable.addCell(project.getDeadLine().toString().replace('T',' '),cellStyle);
+            listTable.addCell(String.valueOf(project.isAvailability()),cellStyle);
+            listTable.addCell(String.valueOf(project.getStaffID()),cellStyle);
+
         }
-        System.out.format("+-------------------------------------------------------------------------------+%n");
+        System.out.println(listTable.render());
+
     }
 public  void searchProject(){
     Scanner input=new Scanner(System.in);
@@ -97,14 +136,30 @@ public  void searchProject(){
         index++;
     }
     if(b){
+        CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+        CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
+        Table listTable =new Table(5, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+        listTable.setColumnWidth(0,5,10);
+        listTable.setColumnWidth(1,20,40);
+        listTable.setColumnWidth(2,20,40);
+        listTable.setColumnWidth(3,20,40);
+        listTable.setColumnWidth(4,20,40);
 
-        String leftAlignFormat = "| %-4d  %-15s %-30s %-10s %-10d  |%n";
-        System.out.format("+-----------------------------------------------------------------------------+%n");
-        System.out.format("| %-4s  %-15s %-30s %-10s %-10s |%n","id","Project name","Dead Line","availability","Staff ID");
-        System.out.format("+-----------------------------------------------------------------------------|%n");
-        System.out.format(leftAlignFormat,project.getProjectID(),project.getProjectName(), project.getDeadLine().toString().replace('T',' '),project.isAvailability(),project.getStaffID()
-        );
-        System.out.format("+-----------------------------------------------------------------------------+%n");
+
+        listTable.addCell("id",cellStyle);
+        listTable.addCell("Project name",cellStyle);
+        listTable.addCell("Dead Line",cellStyle);
+        listTable.addCell("availability",cellStyle);
+        listTable.addCell("Staff ID",cellStyle);
+
+        listTable.addCell(String.valueOf(project.getProjectID()),cellStyle);
+        listTable.addCell(project.getProjectName(),cellStyle);
+        listTable.addCell(project.getDeadLine().toString().replace('T',' '),cellStyle);
+        listTable.addCell(String.valueOf(project.isAvailability()),cellStyle);
+        listTable.addCell(String.valueOf(project.getStaffID()),cellStyle);
+
+        System.out.println(listTable.render());
+
         System.out.print("Do you want to edit? y/n : ");x=input.next().charAt(0);
         if(x=='y'){
             editProject(index,project,id);
@@ -122,19 +177,29 @@ public   void editProject(int index,Project project,int id){
     Scanner input=new Scanner(System.in);
     String name;
     char x;
-    System.out.format("+--------------------------------------+%n");
-    System.out.format("|       Edit Project                   |%n");
-    System.out.format("+------+-------------------------------+%n");
-    System.out.format("| 1    |  edit project name            |%n");
-    System.out.format("+------+-------------------------------+%n");
-    System.out.format("| 2    |  dead line                    |%n");
-    System.out.format("+------+-------------------------------+%n");
-    System.out.format("| 3    |  staff id                     |%n");
-    System.out.format("+------+-------------------------------+%n");
-    System.out.format("| 4    |  availability                 |%n");
-    System.out.format("+------+-------------------------------+%n");
-    System.out.format("| 5    |  Delete project               |%n");
-    System.out.format("+------+-------------------------------+%n");
+    CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+    CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
+    Table listTable =new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+    Table listTable2 =new Table(1, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+    listTable2.setColumnWidth(0,28,50);
+    listTable.setColumnWidth(0,5,10);
+    listTable.setColumnWidth(1,20,40);
+
+    listTable2.addCell("Edit Project",cellStyle2);
+    listTable.addCell("1",cellStyle);
+    listTable.addCell("edit project name",cellStyle);
+    listTable.addCell("2",cellStyle);
+    listTable.addCell("dead line",cellStyle);
+    listTable.addCell("3",cellStyle);
+    listTable.addCell("staff id",cellStyle);
+    listTable.addCell("4",cellStyle);
+    listTable.addCell("availability",cellStyle);
+    listTable.addCell("5",cellStyle);
+    listTable.addCell("Delete project",cellStyle);
+    listTable.addCell("6",cellStyle);
+    listTable.addCell("Exit",cellStyle);
+    System.out.println(listTable2.render()+"\n"+listTable.render());
+
     System.out.print("Enter number : ");x=input.next().charAt(0);
 
     switch (x){
@@ -202,18 +267,41 @@ public  void taskAllocation(){
 }
 
 public  void showWorkload(){
+    CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
+    CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
+    Table listTable =new Table(8, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);
+    listTable.setColumnWidth(0,5,10);
+    listTable.setColumnWidth(1,20,40);
+    listTable.setColumnWidth(2,20,40);
+    listTable.setColumnWidth(3,20,40);
+    listTable.setColumnWidth(4,20,40);
+    listTable.setColumnWidth(5,20,40);
+    listTable.setColumnWidth(6,20,40);
+    listTable.setColumnWidth(7,20,40);
 
-    String leftAlignFormat = "| %-10d  %-15s %-10d %-15s %-20d %-20s %-30s %-20s  |%n";
-    System.out.format("+-------------------------------------------------------------------------------------------------------------------------------------------------------+%n");
-    System.out.format("| %-10s  %-15s %-10s  %-15s %-20s %-20s %-30s %-20s |%n","staff id","staff name","skill ID","Skill Name","Project ID","Project Name","Dead Line","availability");
-    System.out.format("|-------------------------------------------------------------------------------------------------------------------------------------------------------|%n");
-    for(Workload workload:workloads) {
-        System.out.format(leftAlignFormat, workload.getStaffID(), workload.getStaffName(),
-                workload.getSkillID(),workload.getSkillName(),workload.getProjectID(),workload.getProjectName(),
-                workload.getDeadLine().toString().replace('T',' '), workload.isAvailability()
-        );
+
+    listTable.addCell("staff id",cellStyle);
+    listTable.addCell("staff name",cellStyle);
+    listTable.addCell("skill ID",cellStyle);
+    listTable.addCell("Skill Name",cellStyle);
+    listTable.addCell("Project ID",cellStyle);
+    listTable.addCell("Project name",cellStyle);
+    listTable.addCell("Dead Line",cellStyle);
+    listTable.addCell("availability",cellStyle);
+
+       for(Workload workload:workloads) {
+        listTable.addCell(String.valueOf(workload.getStaffID()),cellStyle);
+        listTable.addCell(workload.getStaffName(),cellStyle);
+        listTable.addCell(String.valueOf( workload.getSkillID()),cellStyle);
+        listTable.addCell(workload.getSkillName(),cellStyle);
+        listTable.addCell(String.valueOf( workload.getProjectID()),cellStyle);
+        listTable.addCell(workload.getProjectName(),cellStyle);
+        listTable.addCell(workload.getDeadLine().toString().replace('T',' '),cellStyle);
+        listTable.addCell(String.valueOf( workload.isAvailability()),cellStyle);
+
     }
-    System.out.format("+-------------------------------------------------------------------------------------------------------------------------------------------------------+%n");
+       System.out.println(listTable.render());
+
 }
     public void showAllSkill(){
         String leftAlignFormat = "| %-4d | %-15s |%n";
