@@ -22,6 +22,7 @@ public class StaffManegment {
         char x=' ';
         this.staffs=staffs;
         this.skills=skills;
+        this.skills=GetInformation.getSkillInfo();
         CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
         CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
         Table listTable =new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER_WIDE, ShownBorders.ALL);

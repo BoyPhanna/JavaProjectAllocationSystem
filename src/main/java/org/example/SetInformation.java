@@ -29,7 +29,7 @@ public class SetInformation {
         Statement stmt;
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String text = staff.getDateOfBirth().format(formatters);
-        System.out.println(text);
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(

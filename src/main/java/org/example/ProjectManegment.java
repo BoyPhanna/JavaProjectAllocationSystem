@@ -19,6 +19,7 @@ ProjectManegment(List<Project> projects,List<Workload> workloads,List<Skill> ski
     this.skills=skills;
     this.projects=projects;
     this.workloads=workloads;
+    this.skills=GetInformation.getSkillInfo();
     Scanner input=new Scanner(System.in);
     CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
     CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);

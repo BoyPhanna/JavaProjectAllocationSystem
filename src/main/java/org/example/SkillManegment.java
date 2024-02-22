@@ -42,20 +42,14 @@ public class SkillManegment {
             System.out.print("Enter number : ");
             x = input.next().charAt(0);
             switch (x) {
-                case '1':
+                case '1' -> {
                     showSkill();
                     input.nextLine();
                     input.nextLine();
-                    break;
-                case '2':
-                    searchSkill();
-                    break;
-                case '3':
-                    addNewSkill();
-                    break;
-                case '4':
-                    deleteSkill();
-                    break;
+                }
+                case '2' -> searchSkill();
+                case '3' -> addNewSkill();
+                case '4' -> deleteSkill();
             }
         }
     }
@@ -109,7 +103,7 @@ public class SkillManegment {
     Skill skill =new Skill();
     System.out.print("Enter skill name : ");skill.setSkillName(input.next());
     SetInformation.addNewSkillToDB(skill);
-    skills=GetInformation.getSkillInfo();
+    this.skills=GetInformation.getSkillInfo();
   }
 public  void  deleteSkill(){
     Scanner input=new Scanner(System.in);

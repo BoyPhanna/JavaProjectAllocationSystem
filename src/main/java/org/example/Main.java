@@ -26,7 +26,7 @@ public class Main {
         List<Skill> skills = GetInformation.getSkillInfo();
         List<Project> projects = GetInformation.getProjectInfo();
         List<Workload> workloads = GetInformation.getWorkloadInfo();
-        openMusic();
+//        openMusic();
 
         CellStyle cellStyle=new CellStyle(CellStyle.HorizontalAlign.left);
         CellStyle cellStyle2=new CellStyle(CellStyle.HorizontalAlign.center);
