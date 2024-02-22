@@ -36,7 +36,7 @@ public class Main {
         listTable.setColumnWidth(0,5,10);
         listTable.setColumnWidth(1,20,40);
 
-        listTable2.addCell("Task Allowcation",cellStyle2);
+        listTable2.addCell("Task Allocation",cellStyle2);
         listTable.addCell("1",cellStyle);
         listTable.addCell("Task Management",cellStyle);
         listTable.addCell("2",cellStyle);

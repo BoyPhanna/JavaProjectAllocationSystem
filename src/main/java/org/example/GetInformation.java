@@ -145,6 +145,7 @@ public class GetInformation {
 
         return workloads;
     }
+
     public static List<Person> getStaffToDoProject(int skillID,LocalDateTime dateTime){
         String[] stringDateTime=dateTime.toString().split("T");
         List<Person> persons=new ArrayList<>();
@@ -159,16 +160,65 @@ public class GetInformation {
                     "FROM \n" +
                     "staff  LEFT JOIN project \n" +
                     "ON staff.staffID=project.staffID \n" +
-                    "WHERE staff.skillID="+skillID+" AND (project.deadLine < '"+stringDateTime[0]+" "+stringDateTime[1]+"' OR project.deadLine IS NULL OR project.availability=1);\n");
+                    "WHERE staff.skillID="+skillID+" AND (project.deadLine < '"+stringDateTime[0]+" "+stringDateTime[1]+"'  OR project.deadLine IS NULL OR project.availability=1  );\n");
+
 
             while (resultSet.next()) {
+
                 Person person = new Person();
                 person.setId(resultSet.getInt(1) );
                 person.setName(resultSet.getString(2) );
 
-                persons.add(person);
+
+
+                    persons.add(person);
+
 
             }
+
+
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+
+        return persons;
+    }
+    public static List<Person> getStaffToDoProject2(int skillID,LocalDateTime dateTime){
+        String[] stringDateTime=dateTime.toString().split("T");
+        List<Person> persons=new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/autotask", "root", ""
+            );
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT staff.staffID,staff.staffName\n" +
+                    "FROM \n" +
+                    "staff  LEFT JOIN project \n" +
+                    "ON staff.staffID=project.staffID \n" +
+                    "WHERE staff.skillID="+skillID+" AND (project.deadLine > '"+stringDateTime[0]+" "+stringDateTime[1]+"'  AND project.availability=0  );\n");
+
+
+            while (resultSet.next()) {
+
+                Person person = new Person();
+                person.setId(resultSet.getInt(1) );
+                person.setName(resultSet.getString(2) );
+
+
+
+                    persons.add(person);
+
+
+            }
+
+
+
             connection.close();
         } catch (Exception e) {
             System.out.println(e);

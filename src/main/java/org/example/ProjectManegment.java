@@ -251,11 +251,26 @@ public  void taskAllocation(){
     dateTimeString=input.nextLine();
     LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     project.setDeadLine(dateTime);
-    List<Person> persons=GetInformation.getStaffToDoProject(id,project.getDeadLine());
+    List<Person> persons=new ArrayList<>();
+    List<Person> persons1=GetInformation.getStaffToDoProject(id,project.getDeadLine());
+    List<Person> persons2=GetInformation.getStaffToDoProject2(id,project.getDeadLine());
+    boolean t=true;
+    for(Person person1: persons1){
+        t=true;
+        for(Person person2:persons2){
+            if (person1.getId()==person2.getId()){
+                t=false;
+            }
+        }
+        if(t){
+            persons.add(person1);
+        }
+
+    }
 
     if(persons.size()>0){
-        project.setStaffID(persons.get(0).getId());
-        projects.add(project);
+        project.setStaffID(persons.get(persons.size()-1).getId());
+        projects=GetInformation.getProjectInfo();
         SetInformation.addNewProjectToDB(project);
         workloads=GetInformation.getWorkloadInfo();
     }
