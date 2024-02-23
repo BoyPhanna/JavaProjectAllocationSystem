@@ -270,8 +270,9 @@ public  void taskAllocation(){
 
     if(persons.size()>0){
         project.setStaffID(persons.get(persons.size()-1).getId());
-        projects=GetInformation.getProjectInfo();
+
         SetInformation.addNewProjectToDB(project);
+        projects=GetInformation.getProjectInfo();
         workloads=GetInformation.getWorkloadInfo();
     }
     else {
